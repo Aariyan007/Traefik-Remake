@@ -5,11 +5,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    command: npm run dev
+    command: node index.js
     ports:
       - "80:80"
       - "8080:8080"
-    network_mode: bridge
     volumes:
-      - var/run/docker.sock:/var/run/docker.sock
-      - .:/app
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - proxy-net
+
+networks:
+  proxy-net:
+    driver: bridge

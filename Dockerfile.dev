@@ -1,3 +1,14 @@
-FROM node:alpine3.10
+FROM node:18-alpine
 
 WORKDIR /app
+
+# copy dependency files first (important for caching)
+COPY package*.json ./
+
+# install dependencies
+RUN npm install
+
+# now copy the rest of the code
+COPY . .
+
+CMD ["node", "index.js"]
