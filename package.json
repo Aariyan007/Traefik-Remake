@@ -1,0 +1,32 @@
+{
+  "name": "trafeik",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aariyan007/Traefik-Remake.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Aariyan007/Traefik-Remake/issues"
+  },
+  "homepage": "https://github.com/Aariyan007/Traefik-Remake#readme",
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/http-proxy": "^1.17.17",
+    "@types/node": "^25.0.10",
+    "@types/dockerode": "^4.0.1"
+  },
+  "dependencies": {
+    "dockerode": "^4.0.9",
+    "express": "^5.2.1",
+    "http-proxy": "^1.18.1"
+  }
+}
