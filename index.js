@@ -2,6 +2,7 @@ const http = require('http');
 const express = require('express');
 const Docker = require('dockerode');
 const { stat } = require('fs');
+const httpProxy = require('http-proxy');
 
 const docker = new Docker({ socketPath: '/var/run/docker.sock' });
 
@@ -41,6 +42,25 @@ docker.getEvents(function (err, stream) {
     })
 
 })
+
+const reversProxyApp = express();
+
+reversProxyApp.use(function(req,res){
+    const hostName = req.hostname;
+    const subDomain = hostName.split(".")[0];
+
+    if(!db.has(subDomain)) return res.status(404).end(404);
+
+    const {ipAddress,defaultPort}  = db.get(subDomain);
+
+    const target = `http://${ipAddress}:${defaultPort}`;
+    console.log(`Proxying request for ${hostName} to ${target}`);
+
+    return proxy.web(req,res,{target,changeOrigin:true});
+})
+
+const reversProxy = http.createServer(reversProxyApp);
+
 
 const managementAPI = express();
 
@@ -87,4 +107,8 @@ managementAPI.post('/containers', async (req, res) => {
 
 managementAPI.listen(8080, () => {
     console.log("Management API listening on port 8080");
+})
+
+reversProxy.listen(80,()=>{
+    console.log("Reverse Proxy listening on port 80");
 })
